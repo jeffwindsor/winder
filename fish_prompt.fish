@@ -46,7 +46,7 @@ function fish_prompt
   #================================================================
   # PRINT PROMPT
   echo -e ''
-  echo -e -n -s (set_color grey) $info_datetime " " (set_color blue) $info_path " " (set_color green) $info_git (set_color normal) 
+  echo -e -n -s (set_color 808080) $info_datetime " " (set_color blue) $info_path " " (set_color green) $info_git (set_color normal) 
   echo -e ''
   echo -e -n -s $input_prompt (set_color normal) " "
   
