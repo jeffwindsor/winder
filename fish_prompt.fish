@@ -47,6 +47,6 @@ function fish_prompt
   echo -e ''
   echo -e -n -s (set_color blue) $info_path (set_color green) $info_git $info_git_status (set_color 808080) $info_datetime (set_color normal) 
   echo -e ''
-  echo -e -n -s $input_prompt (set_color normal) " "
+  echo -e -n -s $input_prompt (set_color normal)
   
 end
