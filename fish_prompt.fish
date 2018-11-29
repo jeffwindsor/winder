@@ -1,65 +1,53 @@
-# name: clearance
-# ---------------
-# Based on idan. Display the following bits on the left:
-# - Virtualenv name (if applicable, see https://github.com/adambrenecki/virtualfish)
-# - Current directory name
-# - Git branch and dirty state (if inside a git repo)
-
-function _git_branch_name
-  echo (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
-end
-
-function _git_is_dirty
-  echo (command git status -s --ignore-submodules=dirty ^/dev/null)
-end
-
-function _current_time
-  echo (gdate +%H:%m:%S)
-end
-
 function fish_prompt
-  set -l last_status $status
+  #==========================================================================
+  set -l line_prompt  "⟩"
+  set -l ahead    "↑"
+  set -l behind   "↓"
+  set -l diverged "⥄ "
+  set -l dirty    "*"
+  set -l none     "◦"
 
-  set -l cyan (set_color cyan)
-  set -l yellow (set_color yellow)
-  set -l red (set_color red)
-  set -l blue (set_color blue)
-  set -l green (set_color green)
-  set -l normal (set_color normal)
-
-  set -l cwd $green(_current_time) " " $blue(pwd | sed "s:^$HOME:~:")
-
-  # Output the prompt, left to right
-
-  # Add a newline before new prompts
-  echo -e ''
-
-  # Display [venvname] if in a virtualenv
-  if set -q VIRTUAL_ENV
-      echo -n -s (set_color -b cyan black) '[' (basename "$VIRTUAL_ENV") ']' $normal ' '
+  set -l info_datetime
+  if test "$theme_datetime" = 'long'
+    set info_datetime (gdate)
+  else
+    set info_datetime (gdate +%H:%M:%S)
   end
 
-  # Print pwd or full path
-  echo -n -s $cwd $normal
+  set -l info_path
+  if test "$theme_path" = 'long'
+    set info_path (pwd | sed "s:^$HOME:~:")
+  else
+    set info_path (prompt_pwd)
+  end
 
-  # Show git branch and status
-  if [ (_git_branch_name) ]
-    set -l git_branch (_git_branch_name)
+  set -l info_git
+  if git_is_repo
 
-    if [ (_git_is_dirty) ]
-      set git_info '(' $yellow $git_branch " *" $normal ')'
+    set -l info_git_dirty
+    if git_is_touched
+      set info_git_dirty " " $dirty
     else
-      set git_info '(' $green $git_branch $normal ')'
+      set info_git_dirty " " (git_ahead $ahead $behind $diverged $none)
     end
-    echo -n -s ' · ' $git_info $normal
+    
+    set info_git (git_branch_name) $info_git_dirty
+
   end
 
-  set -l prompt_color $red
-  if test $last_status = 0
-    set prompt_color $normal
+  #==========================================================================
+  set -l input_prompt
+  if test $status = 0
+    set input_prompt (set_color normal) $line_prompt
+  else 
+    set input_prompt (set_color red --bold)  $line_prompt
   end
 
-  # Terminate with a nice prompt char
+  #================================================================
+  # PRINT PROMPT
   echo -e ''
-  echo -e -n -s $prompt_color '⟩ ' $normal
+  echo -e -n -s (set_color green) $info_datetime " " (set_color blue) $info_path " " (set_color green) $info_git (set_color normal) 
+  echo -e ''
+  echo -e -n -s $input_prompt (set_color normal) " "
+  
 end
