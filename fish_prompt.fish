@@ -9,9 +9,9 @@ function fish_prompt
 
   set -l info_datetime
   if test "$theme_datetime" = 'long'
-    set info_datetime (gdate) " "
+    set info_datetime (date) " "
   else
-    set info_datetime (gdate +%H:%M:%S) " "
+    set info_datetime (date +%H:%M:%S) " "
   end
 
   set -l info_path
