@@ -7,20 +7,10 @@ function fish_prompt
   set -l dirty    "*"
   set -l none     "◦"
 
-  set -l info_datetime
-  if test "$theme_datetime" = 'long'
-    set info_datetime "(" (date) ") "
-  else
-    set info_datetime "(" (date +%H:%M:%S) ") "
-  end
-
-  set -l info_path
-  if test "$theme_path" = 'long'
-    set info_path (pwd | sed "s:^$HOME:~:") " "
-  else
-    set info_path (prompt_pwd) " "
-  end
-
+  set -l info_datetime "(" (date +%H:%M:%S) ") "
+  set -l info_path info_path (pwd | sed "s:^$HOME:~:") " "
+  #set -l info_path (prompt_pwd) " "
+  
   set -l info_git_status
   if git_is_touched
     set info_git_status $dirty
