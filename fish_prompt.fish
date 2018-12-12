@@ -9,9 +9,9 @@ function fish_prompt
 
   set -l info_datetime
   if test "$theme_datetime" = 'long'
-    set info_datetime (date) " "
+    set info_datetime "(" (date) ") "
   else
-    set info_datetime (date +%H:%M:%S) " "
+    set info_datetime "(" (date +%H:%M:%S) ") "
   end
 
   set -l info_path
@@ -20,7 +20,6 @@ function fish_prompt
   else
     set info_path (prompt_pwd) " "
   end
-
 
   set -l info_git_status
   if git_is_touched
@@ -31,7 +30,7 @@ function fish_prompt
 
   set -l info_git
   if git_is_repo   
-    set info_git "(" $info_git_status ")-" (git_branch_name)
+    set info_git (git_branch_name) " " $info_git_status " "
   end
 
   #==========================================================================
