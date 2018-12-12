@@ -31,7 +31,7 @@ function fish_prompt
 
   set -l info_git
   if git_is_repo   
-    set info_git "[" (git_branch_name) " " $info_git_status "] "
+    set info_git " " (git_branch_name) " (" $info_git_status ") "
   end
 
   #==========================================================================
