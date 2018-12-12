@@ -31,7 +31,7 @@ function fish_prompt
 
   set -l info_git
   if git_is_repo   
-    set info_git (git_branch_name) " "
+    set info_git "[" (git_branch_name) $info_git_status "] "
   end
 
   #==========================================================================
@@ -45,7 +45,7 @@ function fish_prompt
   #================================================================
   # PRINT PROMPT
   echo -e ''
-  echo -e -n -s (set_color blue) $info_path (set_color green) $info_git $info_git_status (set_color 808080) $info_datetime (set_color normal) 
+  echo -e -n -s (set_color blue) $info_path (set_color green) $info_git (set_color 808080) $info_datetime (set_color normal) 
   echo -e ''
   echo -e -n -s $input_prompt (set_color normal)
   
