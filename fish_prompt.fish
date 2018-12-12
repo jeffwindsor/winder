@@ -24,9 +24,9 @@ function fish_prompt
 
   set -l info_git_status
   if git_is_touched
-    set info_git_status $dirty " "
+    set info_git_status $dirty
   else
-    set info_git_status (git_ahead $ahead $behind $diverged $none) " "
+    set info_git_status (git_ahead $ahead $behind $diverged $none)
   end
 
   set -l info_git
