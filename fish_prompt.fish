@@ -8,8 +8,8 @@ function fish_prompt
   set -l none     "◦"
 
   set -l info_datetime "(" (date +%H:%M:%S) ") "
-  set -l info_path (pwd | sed "s:^$HOME:~:") " "
-  #set -l info_path (prompt_pwd) " "
+  #set -l info_path (pwd | sed "s:^$HOME:~:") " "
+  set -l info_path (prompt_pwd) " "
   
   set -l info_git_status
   if git_is_touched
